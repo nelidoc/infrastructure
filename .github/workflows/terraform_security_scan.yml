@@ -1,0 +1,27 @@
+name: 'Terraform Security Scan'
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  security_scan:
+    runs-on: ubuntu-latest
+    name: 'Security Scan'
+    steps:
+    - name: 'Checkout'
+      uses: actions/checkout@v2
+
+    - name: 'Setup Python'
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: 'Install Checkov'
+      run: pip install checkov
+
+    - name: 'Run Checkov'
+      run: checkov -d .
+
